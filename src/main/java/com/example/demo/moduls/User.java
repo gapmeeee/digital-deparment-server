@@ -1,6 +1,6 @@
 package com.example.demo.moduls;
 
-import com.example.demo.moduls.enums.Role;
+import com.example.demo.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,6 +54,11 @@ public class User implements UserDetails {
     @JoinColumn
     private Course course;
 
+
+    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY,
+            mappedBy = "user")
+    private List<SupportTicket> supportTickets = new ArrayList<>();
+
     @PrePersist
     private  void init(){
         dateOfCreated = LocalDateTime.now();
@@ -92,5 +97,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return active;
+    }
+
+    public void addSupportTicket(SupportTicket supportTicket) {
+        supportTickets.add(supportTicket);
     }
 }

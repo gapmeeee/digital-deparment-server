@@ -1,8 +1,9 @@
 package com.example.demo.services;
 
 
+import com.example.demo.moduls.SupportTicket;
 import com.example.demo.moduls.User;
-import com.example.demo.moduls.enums.Role;
+import com.example.demo.enums.Role;
 import com.example.demo.repositoties.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class UserService {
         if (userRepository.findByEmail(email)!= null) return false;
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.getRoles().add(Role.ROLE_ADMIN);
+        user.getRoles().add(Role.ROLE_USER);
         user.setActivationCode(UUID.randomUUID().toString());
         log.info("Saving new User with Email: {}", email);
         userRepository.save(user);
@@ -68,6 +69,12 @@ public class UserService {
             user.getRoles().add(Role.valueOf(role));  // Добавляем новую роль
             System.out.println("Role changed to: " + role);
         }
+        userRepository.save(user);
+    }
+
+    public void saveSupportTicket(SupportTicket supportTicket, Principal principal){
+        User user = getUserByPrincipal(principal);
+        user.addSupportTicket(supportTicket);
         userRepository.save(user);
     }
 
