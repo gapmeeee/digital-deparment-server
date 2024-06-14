@@ -1,6 +1,8 @@
 package com.example.demo.moduls;
 
 import com.example.demo.enums.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -50,11 +52,12 @@ public class User implements UserDetails {
 
     private LocalDateTime dateOfCreated;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn
     private Course course;
 
-
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY,
             mappedBy = "user")
     private List<SupportTicket> supportTickets = new ArrayList<>();

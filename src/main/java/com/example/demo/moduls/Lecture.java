@@ -1,5 +1,6 @@
 package com.example.demo.moduls;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class Lecture {
 
     private LocalDateTime dateOfCreated;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn
     private Course course;

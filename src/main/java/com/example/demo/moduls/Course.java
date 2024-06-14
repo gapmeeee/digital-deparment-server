@@ -1,5 +1,6 @@
 package com.example.demo.moduls;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,10 +29,12 @@ public class Course {
 //            mappedBy = "course")
 //    private List<Image> images = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY,
             mappedBy = "course")
     private List<User> users = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "course")
     private List<Lecture> lectures = new ArrayList<>();
