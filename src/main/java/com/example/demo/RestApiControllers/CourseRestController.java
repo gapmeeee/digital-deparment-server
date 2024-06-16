@@ -29,8 +29,8 @@ public class CourseRestController {
         return ResponseEntity.ok(courses);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseInfo(@PathVariable Long id, Principal principal) {
+    @GetMapping("/")
+    public ResponseEntity<?> getCourseInfo(Principal principal) {
         Course course = userService.getUserByPrincipal(principal).getCourse();
         if (course == null) {
             return ResponseEntity.notFound().build();

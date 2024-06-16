@@ -34,7 +34,11 @@ public class UserRestController {
         }
         return ResponseEntity.status(403).body("Доступ запрещен");
     }
+    @GetMapping("/admin/user/{user}")
+    public ResponseEntity<?> userInfoAdmin(@PathVariable("user") Long id) {
+            return ResponseEntity.ok(userService.getUserById(id));
 
+    }
     @GetMapping("/login")
     public ResponseEntity<?> login(Principal principal) {
         if(principal==null){

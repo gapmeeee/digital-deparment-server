@@ -18,6 +18,8 @@ public class FAQApiCotroller {
     public ResponseEntity<?> getFAQs(){
         return ResponseEntity.ok(faqService.listThemes());
     }
+
+
     @PostMapping("/add-faq")
     public ResponseEntity<?> addFAQs(@RequestBody FAQ faq){
         if(!faqService.saveThemes(faq)){

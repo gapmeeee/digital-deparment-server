@@ -44,8 +44,8 @@ public class AdminRestController {
     }
 
 
-    @PostMapping("/user/edit/courses/{userId}")
-    public ResponseEntity<?> addCourse(@PathVariable("userId") Long userId, @RequestParam("courseId") Long courseId) {
+    @PostMapping("/user-edit/course/{courseId}/user/{userId}")
+    public ResponseEntity<?> addCourse(@PathVariable("userId") Long userId, @PathVariable("courseId") Long courseId) {
         User user = userService.getUserById(userId);
         Course course = coursesService.getCourseById(courseId);
         if (user == null || course == null) {
