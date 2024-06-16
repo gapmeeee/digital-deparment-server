@@ -29,4 +29,8 @@ public class Image {
     @Lob
     @Column(name="bytes", columnDefinition = "longblob")
     private byte[]  bytes;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn
+    private User user;
 }

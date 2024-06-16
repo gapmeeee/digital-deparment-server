@@ -5,7 +5,9 @@ import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Base64;
@@ -47,4 +49,22 @@ public class UserRestController {
         User user = userService.getUserByPrincipal(principal);
         return ResponseEntity.ok(user);
     }
+
+    @PostMapping("/avatar")
+    public ResponseEntity<?> addImage(@RequestParam("image") MultipartFile image, Principal principal)  throws IOException {
+        User user = userService.getUserByPrincipal(principal);
+        if (user == null) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+        userService.addImage(image, user);
+        return ResponseEntity.ok("Image uploaded successfully");
+    }
+    @GetMapping("/get-avatar")
+    public ResponseEntity<byte[]> getImage(Principal principal)  throws IOException {
+        User user = userService.getUserByPrincipal(principal);
+//        if (user!= null && user.getAvatar()!=null) {
+            return ResponseEntity.ok(user.getAvatar().getBytes());
+
+    }
+
 }

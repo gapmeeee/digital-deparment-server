@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 
+import com.example.demo.moduls.Image;
 import com.example.demo.moduls.SupportTicket;
 import com.example.demo.moduls.User;
 import com.example.demo.enums.Role;
@@ -9,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -100,5 +103,27 @@ public class UserService {
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElse(null);
+    }
+    public void addImage(MultipartFile image, User user) throws IOException {
+        Image avatar;
+        if (image!=null){
+            avatar = toImageEntity(image);
+            user.setAvatar(avatar);
+            userRepository.save(user);
+        }
+    }
+
+    public Image getImage(User user) throws IOException {
+        return user.getAvatar();
+    }
+
+    private Image toImageEntity(MultipartFile file) throws IOException {
+        Image image = new Image();
+        image.setName(image.getName());
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setContentType(file.getContentType());
+        image.setSize(file.getSize());
+        image.setBytes(file.getBytes());
+        return image;
     }
 }
